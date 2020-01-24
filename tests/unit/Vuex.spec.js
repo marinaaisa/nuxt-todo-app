@@ -20,17 +20,13 @@ describe('Vuex', () => {
   })
 
   describe('Mutations', () => {
-    let newId = 0
-
     it('commits ADD_TODO', () => {
-      store.commit('ADD_TODO', { newId, task: 'Some new task' })
+      store.commit('ADD_TODO', { task: 'Some new task' })
 
-      newId++
+      const current = getters.getTodos(store.state)[0].task
+      const taskExpected = 'Some new task'
 
-      const current = getters.getTodos(store.state)
-      const expected = [{ id: 0, task: 'Some new task', completed: false }]
-
-      expect(current).toEqual(expected)
+      expect(current).toEqual(taskExpected)
     })
 
     it('commits TOGGLE_TODO', () => {
@@ -58,13 +54,12 @@ describe('Vuex', () => {
 
   describe('Actions', () => {
     it('dispatches the addTodo action', () => {
-      const newId = 0
-      store.dispatch('addTodo', { newId, task: 'Some new task' })
+      store.dispatch('addTodo', { task: 'Some new task' })
 
-      const current = getters.getTodos(store.state)
-      const expected = [{ id: 0, task: 'Some new task', completed: false }]
+      const current = getters.getTodos(store.state)[0].task
+      const taskExpected = 'Some new task'
 
-      expect(current).toEqual(expected)
+      expect(current).toEqual(taskExpected)
     })
 
     it('dispatches the toggleTodo action', () => {

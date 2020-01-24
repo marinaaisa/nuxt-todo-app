@@ -3,28 +3,29 @@ export const state = () => ({
 })
 
 export const getters = {
-  getTodos: state => state.todos
+  getTodos: state => state.todos,
+  getNumberOfTodos: state => Object.keys(state.todos).length
 }
 
 export const mutations = {
   SET_TODOS (state, payload) {
     state.todos = payload
   },
-  ADD_TODO: (state, payload) => {
+  ADD_TODO (state, payload) {
     const newTask = {
-      id: payload.newId,
+      id: (new Date()).getTime(),
       task: payload.task,
       completed: false
     }
-    state.todos.unshift(newTask)
+    state.todos.push(newTask)
   },
-  TOGGLE_TODO: (state, payload) => {
+  TOGGLE_TODO (state, payload) {
     const item = state.todos.find(todo => todo.id === payload)
     if (item) {
       item.completed = !item.completed
     }
   },
-  DELETE_TODO: (state, payload) => {
+  DELETE_TODO (state, payload) {
     const index = state.todos.findIndex(todo => todo.id === payload)
     state.todos.splice(index, 1)
   }

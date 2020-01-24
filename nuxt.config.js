@@ -40,7 +40,45 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/style-resources',
+    ['nuxt-i18n', {
+      alwaysRedirect: true,
+      locales: [
+        {
+          code: 'en',
+          iso: 'en-US',
+          name: 'English',
+          file: 'en/index.js'
+        },
+        {
+          code: 'es',
+          iso: 'es-ES',
+          name: 'Español',
+          file: 'es/index.js'
+        }
+      ],
+      lazy: true,
+      seo: false,
+      langDir: '/locales/',
+      defaultLocale: 'en',
+      parsePages: false
+    }],
+    'nuxt-webfontloader'
   ],
+
+  styleResources: {
+    scss: [
+      '@/assets/scss/mq.scss',
+      '@/assets/scss/variables.scss'
+    ]
+  },
+
+  webfontloader: {
+    custom: {
+      families: ['SF Pro Text', 'SF Pro Display'],
+      urls: ['/fonts/fonts.css']
+    }
+  },
   /*
   ** Build configuration
   */

@@ -1,9 +1,9 @@
 <template>
-  <select v-model="selected" @change="changeLocale()" class="lang-switcher">
-    <option :value="selected" selected>
+  <select v-model="selected" @change="changeLocale()" :aria-label="$t('accessibility.langSwitcher')" class="lang-switcher">
+    <option :value="selected" :aria-label="$t(`accessibility.${$i18n.locale}`)" selected>
       {{ $i18n.locale }}
     </option>
-    <option v-for="locale in $i18n.locales" v-if="locale.code !== $i18n.locale" :key="locale.code">
+    <option v-for="locale in locales" :key="locale.code" :aria-label="$t(`accessibility.${locale.code}`)">
       {{ locale.code }}
     </option>
   </select>
@@ -12,11 +12,19 @@
 <script>
 export default {
   name: 'LangSwitcher',
+
   data () {
     return {
       selected: ''
     }
   },
+
+  computed: {
+    locales () {
+      return this.$i18n.locales.filter(locale => locale.code !== this.$i18n.locale)
+    }
+  },
+
   methods: {
     changeLocale () {
       this.$router.push(this.switchLocalePath(this.selected))
@@ -42,10 +50,6 @@ export default {
   text-transform: uppercase;
   transition: border-color .3s;
   cursor: pointer;
-
-  &:focus {
-    outline: none;
-  }
 
   &:hover {
     border-color: var(--primary);

@@ -1,12 +1,12 @@
 <template>
   <div class="index-page">
-    <TheHeader @showAddButton="displayAddButton = !displayAddButton" />
-    <ListTasks />
-    <NewTask v-if="displayAddButton" />
-    <p v-if="displayCompletedText" @click="displayAddButton = false" class="index-page__completed-text">
+    <TheHeader @showAddButton="displayAddButton = !displayAddButton" role="banner" />
+    <ListTasks role="main" />
+    <NewTask v-if="displayAddButton" role="complementary" />
+    <h3 v-if="displayCompletedText" @click="displayAddButton = false" class="index-page__completed-text" role="complementary">
       {{ $t('noTasks') }}
-    </p>
-    <div @click="displayAddButton = false" class="index-page__close-add-task" />
+    </h3>
+    <div @click="displayAddButton = false" class="index-page__close-add-task" aria-hidden="true" />
   </div>
 </template>
 
@@ -20,6 +20,21 @@ export default {
     TheHeader,
     NewTask,
     ListTasks
+  },
+
+  head () {
+    return {
+      title: this.$t('indexPageHead.title'),
+      htmlAttrs: {
+        lang: this.$i18n.locale
+      },
+      meta: [
+        { name: 'author', content: 'Marina Aisa' },
+        { name: 'description', property: 'og:description', content: this.$t('indexPageHead.description'), hid: 'description' },
+        { property: 'og:title', content: this.$t('indexPageHead.title') },
+        { name: 'twitter:description', content: this.$t('indexPageHead.description') }
+      ]
+    }
   },
 
   data () {

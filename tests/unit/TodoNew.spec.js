@@ -20,7 +20,13 @@ describe('NewTask component', () => {
   })
 
   it('adds a new task if the user has written anything in the input', () => {
-    const wrapper = shallowMount(NewTask, { store, localVue })
+    const wrapper = shallowMount(NewTask, {
+      store,
+      localVue,
+      mocks: {
+        $t: msg => msg
+      }
+    })
 
     wrapper.find('input').setValue('something')
     wrapper.find('form').trigger('submit.prevent')
@@ -29,7 +35,13 @@ describe('NewTask component', () => {
   })
 
   it('doesnt add a new task if the user hasnt write anything', () => {
-    const wrapper = shallowMount(NewTask, { store, localVue })
+    const wrapper = shallowMount(NewTask, {
+      store,
+      localVue,
+      mocks: {
+        $t: msg => msg
+      }
+    })
 
     wrapper.find('input').setValue('')
     wrapper.find('form').trigger('submit.prevent')

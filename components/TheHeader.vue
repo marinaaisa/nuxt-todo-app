@@ -1,8 +1,11 @@
 <template>
   <header class="header">
+    <a id="skip" href="#content" role="button">
+      {{ $t('accessibility.skipContent') }}
+    </a>
     <div class="header__actions">
       <LangSwitcher />
-      <button @click="$emit('showAddButton')" class="header__add-button">
+      <button @click="$emit('showAddButton')" :aria-label="$t('accessibility.addButton')" class="header__add-button">
         <svg width="10" height="10" viewBox="0 0 18 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path d="M10 8V0H8V8H0V10H8V18H10V10H18V8H10Z" />
         </svg>
@@ -10,9 +13,9 @@
     </div>
     <div class="header__reminders">
       <h1>{{ $t('reminders') }}</h1>
-      <div class="header__number-of-tasks">
+      <h2 :aria-label="$t('accessibility.numberTasks')" class="header__number-of-tasks">
         {{ numberTasks }}
-      </div>
+      </h2>
     </div>
   </header>
 </template>
@@ -35,7 +38,6 @@ export default {
 
 <style lang="scss">
 .header {
-
   &__reminders {
     display: flex;
     justify-content: space-between;
@@ -69,6 +71,33 @@ export default {
     &:active, &:hover {
       background-color: var(--primary);
     }
+  }
+}
+
+#skip {
+  display: flex;
+  position: absolute;
+  left: 0;
+  top: 0;
+  justify-content: center;
+  z-index: 100;
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--primary);
+  font-size: 20px;
+
+  &:focus {
+    padding: 2px;
+    max-height: none;
+    overflow: auto;
+    z-index: 200;
+  }
+
+  &:hover {
+    transition: all 800ms;
+    text-decoration: underline var(--primary) solid;
   }
 }
 </style>

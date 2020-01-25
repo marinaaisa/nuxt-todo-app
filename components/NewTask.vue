@@ -2,9 +2,10 @@
   <form @submit.prevent="addTodo">
     <input
       v-model="task"
+      :placeholder="$t('accessibility.placeholder')"
+      :aria-label="$t('accessibility.placeholder')"
       class="new-task-input"
       type="text"
-      placeholder="Enter a new task"
     >
   </form>
 </template>

@@ -19,6 +19,11 @@ html {
   height: 100%;
 }
 
+:focus {
+  outline-color: var(--primary);
+  outline: -webkit-focus-ring-color auto 3px;
+}
+
 html, body, #__nuxt, #__layout, .wrapper, .index-page {
   display: flex;
   flex-direction: column;
@@ -27,6 +32,16 @@ html, body, #__nuxt, #__layout, .wrapper, .index-page {
 
 button {
   cursor: pointer;
+}
+
+fieldset {
+  border: 0;
+  padding: 0;
+
+  legend {
+    opacity: 0;
+    position: absolute;
+  }
 }
 
 *,
@@ -45,14 +60,12 @@ h1 {
 .wrapper {
   margin-top: 3rem;
   width: 100%;
-  margin-right: auto; /* 1 */
-  margin-left:  auto; /* 1 */
-
-  max-width: 700px; /* 2 */
+  margin-right: auto;
+  margin-left:  auto;
+  max-width: 700px;
   box-sizing: border-box;
-
-  padding-right: 1rem; /* 3 */
-  padding-left:  1rem; /* 3 */
+  padding-right: 1rem;
+  padding-left:  1rem;
 }
 
 ul {

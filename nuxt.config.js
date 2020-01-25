@@ -58,10 +58,8 @@ export default {
         }
       ],
       lazy: true,
-      seo: false,
       langDir: '/locales/',
-      defaultLocale: 'en',
-      parsePages: false
+      defaultLocale: 'en'
     }],
     'nuxt-webfontloader'
   ],

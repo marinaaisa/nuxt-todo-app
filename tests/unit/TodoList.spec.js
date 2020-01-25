@@ -39,21 +39,39 @@ describe('todoNew component', () => {
   })
 
   it('load tasks from LocalStorage when component is created', async () => {
-    const wrapper = shallowMount(ListTasks, { store, localVue })
+    const wrapper = shallowMount(ListTasks, {
+      store,
+      localVue,
+      mocks: {
+        $t: msg => msg
+      }
+    })
 
     await wrapper
     expect(actions.loadTodos).toHaveBeenCalled()
   })
 
   it('toggles task when task is completed', () => {
-    const wrapper = shallowMount(ListTasks, { store, localVue })
+    const wrapper = shallowMount(ListTasks, {
+      store,
+      localVue,
+      mocks: {
+        $t: msg => msg
+      }
+    })
 
     wrapper.findAll('input').at(0).trigger('click')
     expect(actions.toggleTodo).toHaveBeenCalled()
   })
 
   it('removes task when delete button is clicked', () => {
-    const wrapper = shallowMount(ListTasks, { store, localVue })
+    const wrapper = shallowMount(ListTasks, {
+      store,
+      localVue,
+      mocks: {
+        $t: msg => msg
+      }
+    })
 
     wrapper.find('button').trigger('click')
     expect(actions.deleteTodo).toHaveBeenCalled()

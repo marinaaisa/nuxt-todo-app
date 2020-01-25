@@ -1,30 +1,33 @@
 <template>
-  <ul class="tasks">
-    <li
-      v-for="todo in todos"
-      :key="todo.id"
-      class="task"
-    >
-      <input
-        :id="todo.id"
-        @click="toggleTodo(todo.id)"
-        :checked="todo.completed"
-        class="task__input"
-        name="someRadio"
-        type="checkbox"
+  <fieldset>
+    <legend>{{ $t('accessibility.fieldset') }}</legend>
+    <ul id="content" class="tasks">
+      <li
+        v-for="todo in todos"
+        :key="todo.id"
+        class="task"
       >
-      <label :for="todo.id" class="task__elem" />
-      <div class="task__label">
-        <label :for="todo.id" :class="{ completed: todo.completed }" class="task__label-text">{{ todo.task }}</label>
-        <button @click="deleteTodo(todo.id)" class="task__delete">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
-            <title>Delete task</title>
-            <path d="M16,1.4,14.6,0,8,6.6,1.4,0,0,1.4,6.6,8,0,14.6,1.4,16,8,9.4,14.6,16,16,14.6,9.4,8Z" />
-          </svg>
-        </button>
-      </div>
-    </li>
-  </ul>
+        <input
+          :id="todo.id"
+          @click="toggleTodo(todo.id)"
+          :checked="todo.completed"
+          :aria-label="todo.completed ? $t('accessibility.uncheck') : $t('accessibility.check')"
+          class="task__input"
+          name="someRadio"
+          type="checkbox"
+        >
+        <label :for="todo.id" class="task__label">
+          <p class="task__text">{{ todo.task }}</p>
+          <button @click="deleteTodo(todo.id)" class="task__delete">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+              <title>Delete task</title>
+              <path d="M16,1.4,14.6,0,8,6.6,1.4,0,0,1.4,6.6,8,0,14.6,1.4,16,8,9.4,14.6,16,16,14.6,9.4,8Z" />
+            </svg>
+          </button>
+        </label>
+      </li>
+    </ul>
+  </fieldset>
 </template>
 
 <script>
@@ -62,63 +65,66 @@ export default {
 }
 
 .task {
-  display: flex;
-  padding: 0.3rem 0;
+  padding-bottom: .7rem;
 
   &__input {
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    border: 0;
-    margin: -1px;
-    clip: rect(0,0,0,0);
-    overflow: hidden;
     position: absolute;
-  }
+    left: -9999px;
 
-  &__elem {
-    display: inline-block;
-    position: relative;
-    margin-right: 4px;
-    border: 1px solid var(--primary);
-    width: 16px;
-    height: 16px;
-    border-radius: 100%;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
-
-    &:before {
-      content: "\2022";
-      font-size: 1.25em;
-      line-height: 0.7em;
-      display: none;
+    + .task__label:after {
+      content: '';
+      width: 12px;
+      height: 12px;
+      background: var(--primary);
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      font-family: verdana, arial, sans-serif;
-      font-weight: bold;
-      text-align: center;
-      color: var(--primary);
+      top: 4px;
+      left: 4px;
+      border-radius: 100%;
+      -webkit-transition: all 0.2s ease;
+      transition: all 0.2s ease;
+      opacity: 0;
+      -webkit-transform: scale(0);
+      transform: scale(0);
+    }
+
+    &:checked {
+      + .task__label {
+        &:after {
+          opacity: 1;
+          -webkit-transform: scale(1);
+          transform: scale(1);
+        }
+
+        .task__text {
+          text-decoration: line-through;
+          color: var(--primary);
+        }
+      }
+    }
+
+    &:focus + .task__label:before {
+      outline: -webkit-focus-ring-color auto 2px;
+      outline-color: var(--primary);
     }
   }
 
   &__label {
-    flex: 1;
-    padding-bottom: .5rem;
     position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    line-height: 20px;
     display: flex;
     justify-content: space-between;
-    padding-left: .5rem;
 
     &:before {
       content: '';
-      width: 100%;
       position: absolute;
       left: 0;
-      bottom: 0;
-      border-bottom: 1px solid var(--border-color);
+      top: 0;
+      width: 18px;
+      height: 18px;
+      border: 1px solid var(--primary);
+      border-radius: 100%;
     }
   }
   &__delete {
@@ -131,25 +137,5 @@ export default {
     line-height: 0;
     color: var(--primary);
   }
-}
-
-.task__elem,
-.custom-check__label,
-.task__label {
-  cursor: pointer;
-  vertical-align: middle;
-}
-
-.task__input:checked + .task__elem:before {
-  display: block;
-}
-
-.task__label-text.completed {
-  text-decoration: line-through;
-  color: var(--primary);
-}
-
-.destroy {
-  margin-left: auto;
 }
 </style>
